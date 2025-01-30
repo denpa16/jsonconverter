@@ -9,35 +9,71 @@ import (
 )
 
 type TestChildStructData struct {
-	ValueString string `json:"valuestring"`
+	ValueString         string                 `json:"valuestring"`
+	ValueInt            int                    `json:"valueint"`
+	ValueInt8           int8                   `json:"valueint8"`
+	ValueInt16          int16                  `json:"valueint16"`
+	ValueInt32          int32                  `json:"valueint32"`
+	ValueInt64          int64                  `json:"valueint64"`
+	ValueFloat32        float32                `json:"valuefloat32"`
+	ValueFloat64        float64                `json:"valuefloat64"`
+	Active              bool                   `json:"active"`
+	ValueSliceString    []string               `json:"valueslicestring"`
+	ValueSliceInt       []int                  `json:"valuesliceint"`
+	ValueSliceInt8      []int8                 `json:"valuesliceint8"`
+	ValueSliceInt16     []int16                `json:"valuesliceint16"`
+	ValueSliceInt32     []int32                `json:"valuesliceint32"`
+	ValueSliceInt64     []int64                `json:"valuesliceint64"`
+	ValueSliceFloat32   []float32              `json:"valueslicefloat32"`
+	ValueSliceFloat64   []float64              `json:"valueslicefloat64"`
+	ValueSliceInterface []interface{}          `json:"valuesliceinterface"`
+	ValueMapStringKey   map[string]interface{} `json:"valuemapstringkey"`
+
+	SetValueString         bool `json:"-"`
+	SetValueInt            bool `json:"-"`
+	SetValueInt8           bool `json:"-"`
+	SetValueInt16          bool `json:"-"`
+	SetValueInt32          bool `json:"-"`
+	SetValueInt64          bool `json:"-"`
+	SetValueFloat32        bool `json:"-"`
+	SetValueFloat64        bool `json:"-"`
+	SetActive              bool `json:"-"`
+	SetValueSliceString    bool `json:"-"`
+	SetValueSliceInt       bool `json:"-"`
+	SetValueSliceInt8      bool `json:"-"`
+	SetValueSliceInt16     bool `json:"-"`
+	SetValueSliceInt32     bool `json:"-"`
+	SetValueSliceInt64     bool `json:"-"`
+	SetValueSliceFloat32   bool `json:"-"`
+	SetValueSliceFloat64   bool `json:"-"`
+	SetValueSliceInterface bool `json:"-"`
+	SetValueMapStringKey   bool `json:"-"`
 }
 
 type TestChildPtrStructData struct {
-	ValueString *string `json:"valuestring"`
-}
-
-type TestPtrStructData struct {
-	ValueString         *string                 `json:"valuestring"`
-	ValueInt            *int                    `json:"valueint"`
-	ValueInt8           *int8                   `json:"valueint8"`
-	ValueInt16          *int16                  `json:"valueint16"`
-	ValueInt32          *int32                  `json:"valueint32"`
-	ValueInt64          *int64                  `json:"valueint64"`
-	ValueFloat32        *float32                `json:"valuefloat32"`
-	ValueFloat64        *float64                `json:"valuefloat64"`
-	Active              *bool                   `json:"active"`
-	ValueSliceString    *[]string               `json:"valueslicestring"`
-	ValueSliceInt       *[]int                  `json:"valuesliceint"`
-	ValueSliceInt8      *[]int8                 `json:"valuesliceint8"`
-	ValueSliceInt16     *[]int16                `json:"valuesliceint16"`
-	ValueSliceInt32     *[]int32                `json:"valuesliceint32"`
-	ValueSliceInt64     *[]int64                `json:"valuesliceint64"`
-	ValueSliceFloat32   *[]float32              `json:"valueslicefloat32"`
-	ValueSliceFloat64   *[]float64              `json:"valueslicefloat64"`
-	ValueSliceInterface *[]interface{}          `json:"valuesliceinterface"`
-	ValueMapStringKey   *map[string]interface{} `json:"valuemapstringkey"`
-	ValueStruct         *TestChildStructData    `json:"valuestruct"`
-	ValuePtrStruct      *TestChildPtrStructData `json:"valueptrstruct"`
+	ValueString         *string                   `json:"valuestring"`
+	ValueInt            *int                      `json:"valueint"`
+	ValueInt8           *int8                     `json:"valueint8"`
+	ValueInt16          *int16                    `json:"valueint16"`
+	ValueInt32          *int32                    `json:"valueint32"`
+	ValueInt64          *int64                    `json:"valueint64"`
+	ValueFloat32        *float32                  `json:"valuefloat32"`
+	ValueFloat64        *float64                  `json:"valuefloat64"`
+	Active              *bool                     `json:"active"`
+	ValueSliceString    *[]string                 `json:"valueslicestring"`
+	ValueSliceInt       *[]int                    `json:"valuesliceint"`
+	ValueSliceInt8      *[]int8                   `json:"valuesliceint8"`
+	ValueSliceInt16     *[]int16                  `json:"valuesliceint16"`
+	ValueSliceInt32     *[]int32                  `json:"valuesliceint32"`
+	ValueSliceInt64     *[]int64                  `json:"valuesliceint64"`
+	ValueSliceFloat32   *[]float32                `json:"valueslicefloat32"`
+	ValueSliceFloat64   *[]float64                `json:"valueslicefloat64"`
+	ValueSliceInterface *[]interface{}            `json:"valuesliceinterface"`
+	ValueMapStringKey   *map[string]interface{}   `json:"valuemapstringkey"`
+	ValueStruct         *TestChildStructData      `json:"valuestruct"`
+	ValuePtrStruct      *TestChildPtrStructData   `json:"valueptrstruct"`
+	ValueSliceStruct    *[]TestChildStructData    `json:"valueslicestruct"`
+	ValueSlicePtrStruct *[]TestChildPtrStructData `json:"valuesliceptrstruct"`
 
 	SetValueString         bool `json:"-"`
 	SetValueInt            bool `json:"-"`
@@ -60,6 +96,58 @@ type TestPtrStructData struct {
 	SetValueMapStringKey   bool `json:"-"`
 	SetValueStruct         bool `json:"-"`
 	SetValuePtrStruct      bool `json:"-"`
+	SetValueSliceStruct    bool `json:"-"`
+	SetValueSlicePtrStruct bool `json:"-"`
+}
+
+type TestPtrStructData struct {
+	ValueString         *string                   `json:"valuestring"`
+	ValueInt            *int                      `json:"valueint"`
+	ValueInt8           *int8                     `json:"valueint8"`
+	ValueInt16          *int16                    `json:"valueint16"`
+	ValueInt32          *int32                    `json:"valueint32"`
+	ValueInt64          *int64                    `json:"valueint64"`
+	ValueFloat32        *float32                  `json:"valuefloat32"`
+	ValueFloat64        *float64                  `json:"valuefloat64"`
+	Active              *bool                     `json:"active"`
+	ValueSliceString    *[]string                 `json:"valueslicestring"`
+	ValueSliceInt       *[]int                    `json:"valuesliceint"`
+	ValueSliceInt8      *[]int8                   `json:"valuesliceint8"`
+	ValueSliceInt16     *[]int16                  `json:"valuesliceint16"`
+	ValueSliceInt32     *[]int32                  `json:"valuesliceint32"`
+	ValueSliceInt64     *[]int64                  `json:"valuesliceint64"`
+	ValueSliceFloat32   *[]float32                `json:"valueslicefloat32"`
+	ValueSliceFloat64   *[]float64                `json:"valueslicefloat64"`
+	ValueSliceInterface *[]interface{}            `json:"valuesliceinterface"`
+	ValueMapStringKey   *map[string]interface{}   `json:"valuemapstringkey"`
+	ValueStruct         *TestChildStructData      `json:"valuestruct"`
+	ValuePtrStruct      *TestChildPtrStructData   `json:"valueptrstruct"`
+	ValueSliceStruct    *[]TestChildStructData    `json:"valueslicestruct"`
+	ValueSlicePtrStruct *[]TestChildPtrStructData `json:"valuesliceptrstruct"`
+
+	SetValueString         bool `json:"-"`
+	SetValueInt            bool `json:"-"`
+	SetValueInt8           bool `json:"-"`
+	SetValueInt16          bool `json:"-"`
+	SetValueInt32          bool `json:"-"`
+	SetValueInt64          bool `json:"-"`
+	SetValueFloat32        bool `json:"-"`
+	SetValueFloat64        bool `json:"-"`
+	SetActive              bool `json:"-"`
+	SetValueSliceString    bool `json:"-"`
+	SetValueSliceInt       bool `json:"-"`
+	SetValueSliceInt8      bool `json:"-"`
+	SetValueSliceInt16     bool `json:"-"`
+	SetValueSliceInt32     bool `json:"-"`
+	SetValueSliceInt64     bool `json:"-"`
+	SetValueSliceFloat32   bool `json:"-"`
+	SetValueSliceFloat64   bool `json:"-"`
+	SetValueSliceInterface bool `json:"-"`
+	SetValueMapStringKey   bool `json:"-"`
+	SetValueStruct         bool `json:"-"`
+	SetValuePtrStruct      bool `json:"-"`
+	SetValueSliceStruct    bool `json:"-"`
+	SetValueSlicePtrStruct bool `json:"-"`
 }
 
 type TestStructData struct {
@@ -283,6 +371,26 @@ func TestTestPtrStructDataWithoutFilledFields(t *testing.T) {
 
 	// 18. Тест: JSON без поля ValuePtrStruct (TestChildStructData)
 	t.Run("Field with pointer to ValuePtrStruct, missing field", func(t *testing.T) {
+		testJsonData := []byte(`{}`)
+		result := &TestPtrStructData{}
+		err := PopulateFieldsAndSets(testJsonData, result)
+		assert.NoError(t, err)
+		assert.Nil(t, result.ValuePtrStruct)
+		assert.False(t, result.SetValuePtrStruct)
+	})
+
+	// 18. Тест: JSON с заполненным полем ValueStruct (TestChildStructData)
+	t.Run("Field with pointer to map, missing field", func(t *testing.T) {
+		testJsonData := []byte(`{}`)
+		result := &TestPtrStructData{}
+		err := PopulateFieldsAndSets(testJsonData, result)
+		assert.NoError(t, err)
+		assert.Nil(t, result.ValueStruct)
+		assert.False(t, result.SetValueStruct)
+	})
+
+	// 19. Тест: JSON с заполненным полем ValueStruct (TestChildStructData)
+	t.Run("Field with pointer to map, missing field", func(t *testing.T) {
 		testJsonData := []byte(`{}`)
 		result := &TestPtrStructData{}
 		err := PopulateFieldsAndSets(testJsonData, result)
@@ -564,6 +672,36 @@ func TestTestPtrStructDataWithFilledFields(t *testing.T) {
 		assert.NoError(t, err)
 		assert.Equal(t, &ValuePtrStruct, result.ValuePtrStruct)
 		assert.True(t, result.SetValuePtrStruct)
+	})
+
+	// 20. Тест: JSON без поля ValueStruct (TestChildPtrStructData)
+	t.Run("Field with pointer to map, missing field", func(t *testing.T) {
+		stringValue := "exmaple_value_string"
+		ValueStruct := TestChildStructData{
+			ValueString: stringValue,
+		}
+		ValueSliceStruct := []TestChildStructData{ValueStruct}
+		testJsonData := []byte(`{"valueslicestruct": [{"valuestring": "exmaple_value_string"}]}`)
+		result := &TestPtrStructData{}
+		err := PopulateFieldsAndSets(testJsonData, result)
+		assert.NoError(t, err)
+		assert.Equal(t, &ValueSliceStruct, result.ValueSliceStruct)
+		assert.True(t, result.SetValueSliceStruct)
+	})
+
+	// 21. Тест: JSON с заполненным полем ValueStructSlice (TestChildStructData)
+	t.Run("Field with pointer to map, missing field", func(t *testing.T) {
+		stringValue := "example_value_string"
+		ValueStruct := TestChildPtrStructData{
+			ValueString: &stringValue,
+		}
+		ValueSlicePtrStruct := []TestChildPtrStructData{ValueStruct}
+		testJsonData := []byte(`{"valuesliceptrstruct": [{"valuestring": "example_value_string"}]}`)
+		result := &TestPtrStructData{}
+		err := PopulateFieldsAndSets(testJsonData, result)
+		assert.NoError(t, err)
+		assert.Equal(t, &ValueSlicePtrStruct, result.ValueSlicePtrStruct)
+		assert.True(t, result.SetValueSlicePtrStruct)
 	})
 
 	// 20. Тест: JSON с заполненными всеми полями
