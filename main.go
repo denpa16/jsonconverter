@@ -1,6 +1,7 @@
 package main
 
 import (
+	"encoding/json"
 	"fmt"
 )
 
@@ -169,6 +170,7 @@ type StructData struct {
 	ValueStruct         ChildStructData        `json:"valuestruct"`
 	ValueSliceStruct    []ChildStructData      `json:"valueslicestruct"`
 	ValueSlicePtrStruct []ChildPtrStructData   `json:"valuesliceptrstruct"`
+	ValueJsonRaw        *json.RawMessage       `json:"valuejsonraw"`
 
 	SetValueString         bool `json:"-"`
 	SetValueInt            bool `json:"-"`
@@ -192,6 +194,7 @@ type StructData struct {
 	SetValueStruct         bool `json:"-"`
 	SetValueSliceStruct    bool `json:"-"`
 	SetValueSlicePtrStruct bool `json:"-"`
+	SetValueJsonRaw        bool `json:"-"`
 }
 
 func main() {
@@ -327,12 +330,30 @@ func main() {
 		fmt.Println("Error:", err)
 		return
 	}
-	fmt.Println(result1)
 
 	err = PopulateFieldsAndSets(testData, result2)
 	if err != nil {
 		fmt.Println("Error:", err)
 		return
 	}
-	fmt.Println(result2)
+
+	result3 := &StructData{}
+
+	ddata := `{
+		"valuejsonraw": {"id": 1}
+	}`
+
+	testDdata := []byte(ddata)
+
+	err = PopulateFieldsAndSets(testDdata, result3)
+	if err != nil {
+		fmt.Println("Error:", err)
+		return
+	}
+
+	fmt.Println("###########")
+	fmt.Println(result3.ValueJsonRaw)
+	fmt.Println(result3.SetValueJsonRaw)
+	fmt.Println("###########")
+
 }

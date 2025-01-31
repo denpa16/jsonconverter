@@ -32,7 +32,6 @@ func PopulateFieldsAndSets(jsonData []byte, result interface{}) error {
 		// Проверяем наличие поля в JSON
 		if jsonValue, exists := data[jsonTag]; exists {
 			// Присваиваем значение полю
-
 			switch field.Kind() {
 			case reflect.String:
 				field.SetString(jsonValue.(string))
@@ -287,7 +286,6 @@ func PopulateFieldsAndSets(jsonData []byte, result interface{}) error {
 						structSlice := reflect.MakeSlice(field.Type().Elem(), len(values), len(values))
 
 						for k, v := range values {
-							fmt.Println(v)
 							// Преобразуем каждый элемент к типу нужной структуры
 							newStruct := reflect.New(field.Type().Elem().Elem()).Elem()
 							byteValue, _ := json.Marshal(v)
@@ -307,11 +305,24 @@ func PopulateFieldsAndSets(jsonData []byte, result interface{}) error {
 						field.Set(structSlicePtr)
 					default:
 						// Преобразование интерфейса в срез
-						interfaceSlice, ok := interfaceValue.([]interface{})
-						if !ok {
-							fmt.Println("Imposible convert interface to slice")
+						interfaceData, ok := interfaceValue.([]interface{})
+						if ok {
+							if field.Type().String() == "*json.RawMessage" {
+								rawJsonConverted, _ := json.Marshal(interfaceData)
+								rawMessage := json.RawMessage(rawJsonConverted)
+								field.Set(reflect.ValueOf(&rawMessage))
+							} else {
+								field.Set(reflect.ValueOf(&interfaceData))
+							}
+						} else {
+							if field.Type().String() == "*json.RawMessage" {
+								rawJsonConverted, _ := json.Marshal(interfaceData)
+								rawMessage := json.RawMessage(rawJsonConverted)
+								field.Set(reflect.ValueOf(&rawMessage))
+							} else {
+								field.Set(reflect.ValueOf(&interfaceData))
+							}
 						}
-						field.Set(reflect.ValueOf(&interfaceSlice))
 					}
 				}
 			case reflect.Map:
@@ -498,11 +509,16 @@ func PopulateFieldsAndSets(jsonData []byte, result interface{}) error {
 					}
 				default:
 					// Преобразование интерфейса в срез
-					interfaceSlice, ok := interfaceValue.([]interface{})
-					if !ok {
-						fmt.Println("Imposible convert interface to slice")
+					interfaceData, ok := interfaceValue.([]interface{})
+					if ok {
+						if field.Type().String() == "json.RawMessage" {
+							rawJsonConverted, _ := json.Marshal(interfaceData)
+							rawMessage := json.RawMessage(rawJsonConverted)
+							field.Set(reflect.ValueOf(rawMessage))
+						} else {
+							field.Set(reflect.ValueOf(interfaceData))
+						}
 					}
-					field.Set(reflect.ValueOf(interfaceSlice))
 				}
 			}
 
