@@ -1,0 +1,353 @@
+
+func TestTestStructDataWithFilledFields(t *testing.T) {
+	// 1. Тест: JSON с заполненным полем ValueString (string)
+	t.Run("Field with string type, filled field", func(t *testing.T) {
+		ValueString := "John Doe"
+		testJsonData := []byte(`{"valuestring": "` + ValueString + `"}`)
+		result := &TestStructData{}
+		err := FillFields(result, testJsonData)
+		assert.NoError(t, err)
+		assert.Equal(t, ValueString, result.ValueString)
+		assert.True(t, result.SetValueString)
+	})
+
+	// 2. Тест: JSON с заполненным полем ValueInt (int)
+	t.Run("Field with pointer to int, filled field", func(t *testing.T) {
+		ValueInt := 30
+		testJsonData := []byte(`{"valueint": ` + fmt.Sprintf("%d", ValueInt) + `}`)
+		result := &TestStructData{}
+		err := FillFields(result, testJsonData)
+		assert.NoError(t, err)
+		assert.Equal(t, ValueInt, result.ValueInt)
+		assert.True(t, result.SetValueInt)
+	})
+
+	// 3. Тест: JSON с заполненным полем ValueInt8 (int8)
+	t.Run("Field with pointer to int8, filled field", func(t *testing.T) {
+		ValueInt8 := int8(25)
+		testJsonData := []byte(`{"valueint8": ` + fmt.Sprintf("%d", ValueInt8) + `}`)
+		result := &TestStructData{}
+		err := FillFields(result, testJsonData)
+		assert.NoError(t, err)
+		assert.Equal(t, ValueInt8, result.ValueInt8)
+		assert.True(t, result.SetValueInt8)
+	})
+
+	// 4. Тест: JSON с заполненным полем ValueInt16 (int16)
+	t.Run("Field with pointer to int16, filled field", func(t *testing.T) {
+		ValueInt16 := int16(40)
+		testJsonData := []byte(`{"valueint16": ` + fmt.Sprintf("%d", ValueInt16) + `}`)
+		result := &TestStructData{}
+		err := FillFields(result, testJsonData)
+		assert.NoError(t, err)
+		assert.Equal(t, ValueInt16, result.ValueInt16)
+		assert.True(t, result.SetValueInt16)
+	})
+
+	// 5. Тест: JSON с заполненным полем ValueInt32 (int32)
+	t.Run("Field with pointer to int32, filled field", func(t *testing.T) {
+		ValueInt32 := int32(35)
+		testJsonData := []byte(`{"valueint32": ` + fmt.Sprintf("%d", ValueInt32) + `}`)
+		result := &TestStructData{}
+		err := FillFields(result, testJsonData)
+		assert.NoError(t, err)
+		assert.Equal(t, ValueInt32, result.ValueInt32)
+		assert.True(t, result.SetValueInt32)
+	})
+
+	// 6. Тест: JSON с заполненным полем ValueInt64 (int64)
+	t.Run("Field with pointer to int64, filled field", func(t *testing.T) {
+		ValueInt64 := int64(50)
+		testJsonData := []byte(`{"valueint64": ` + fmt.Sprintf("%d", ValueInt64) + `}`)
+		result := &TestStructData{}
+		err := FillFields(result, testJsonData)
+		assert.NoError(t, err)
+		assert.Equal(t, ValueInt64, result.ValueInt64)
+		assert.True(t, result.SetValueInt64)
+	})
+
+	// 7. Тест: JSON с заполненным полем ValueFloat64 (float32)
+	t.Run("Field with float64, filled field", func(t *testing.T) {
+		ValueFloat32 := float32(175.5)
+		testJsonData := []byte(`{"valuefloat32": ` + fmt.Sprintf("%f", ValueFloat32) + `}`)
+		result := &TestStructData{}
+		err := FillFields(result, testJsonData)
+		assert.NoError(t, err)
+		assert.Equal(t, ValueFloat32, result.ValueFloat32)
+		assert.True(t, result.SetValueFloat32)
+	})
+
+	// 8. Тест: JSON с заполненным полем ValueFloat64 (float64)
+	t.Run("Field with float64, filled field", func(t *testing.T) {
+		ValueFloat64 := 175.5
+		testJsonData := []byte(`{"valuefloat64": ` + fmt.Sprintf("%f", ValueFloat64) + `}`)
+		result := &TestStructData{}
+		err := FillFields(result, testJsonData)
+		assert.NoError(t, err)
+		assert.Equal(t, ValueFloat64, result.ValueFloat64)
+		assert.True(t, result.SetValueFloat64)
+	})
+
+	// 9. Тест: JSON с заполненным полем Active (bool)
+	t.Run("Field with pointer to bool, filled field", func(t *testing.T) {
+		active := true
+		testJsonData := []byte(`{"active": ` + strconv.FormatBool(active) + `}`)
+		result := &TestStructData{}
+		err := FillFields(result, testJsonData)
+		assert.NoError(t, err)
+		assert.Equal(t, active, result.Active)
+		assert.True(t, result.SetActive)
+	})
+
+	// 10. Тест: JSON с заполненным полем ValueSliceString (срез строк)
+	t.Run("Field with pointer to []string, filled field", func(t *testing.T) {
+		ValueSliceString := []string{"tag1", "tag2", "tag3"}
+		testJsonData := []byte(`{"valueslicestring": ["tag1", "tag2", "tag3"]}`)
+		result := &TestStructData{}
+		err := FillFields(result, testJsonData)
+		assert.NoError(t, err)
+		assert.Equal(t, ValueSliceString, result.ValueSliceString)
+		assert.True(t, result.SetValueSliceString)
+	})
+
+	// 11. Тест: JSON с заполненным полем ValueSliceInt (срез int)
+	t.Run("Field with pointer to []int, filled field", func(t *testing.T) {
+		ValueSliceInt := []int{1, 2, 3}
+		testJsonData := []byte(`{"valuesliceint": [1, 2, 3]}`)
+		result := &TestStructData{}
+		err := FillFields(result, testJsonData)
+		assert.NoError(t, err)
+		assert.Equal(t, ValueSliceInt, result.ValueSliceInt)
+		assert.True(t, result.SetValueSliceInt)
+	})
+
+	// 12. Тест: JSON с заполненным полем ValueSliceInt8 (срез int8)
+	t.Run("Field with pointer to []int8, filled field", func(t *testing.T) {
+		ValueSliceInt := []int8{1, 2, 3}
+		testJsonData := []byte(`{"valuesliceint8": [1, 2, 3]}`)
+		result := &TestStructData{}
+		err := FillFields(result, testJsonData)
+		assert.NoError(t, err)
+		assert.Equal(t, ValueSliceInt, result.ValueSliceInt8)
+		assert.True(t, result.SetValueSliceInt8)
+	})
+
+	// 13. Тест: JSON с заполненным полем ValueSliceInt16 (срез int16)
+	t.Run("Field with pointer to []int16, filled field", func(t *testing.T) {
+		ValueSliceInt := []int16{1, 2, 3}
+		testJsonData := []byte(`{"valuesliceint16": [1, 2, 3]}`)
+		result := &TestStructData{}
+		err := FillFields(result, testJsonData)
+		assert.NoError(t, err)
+		assert.Equal(t, ValueSliceInt, result.ValueSliceInt16)
+		assert.True(t, result.SetValueSliceInt16)
+	})
+
+	// 14. Тест: JSON с заполненным полем ValueSliceInt32 (срез int32)
+	t.Run("Field with pointer to []int32, filled field", func(t *testing.T) {
+		ValueSliceInt := []int32{1, 2, 3}
+		testJsonData := []byte(`{"valuesliceint32": [1, 2, 3]}`)
+		result := &TestStructData{}
+		err := FillFields(result, testJsonData)
+		assert.NoError(t, err)
+		assert.Equal(t, ValueSliceInt, result.ValueSliceInt32)
+		assert.True(t, result.SetValueSliceInt32)
+	})
+
+	// 15. Тест: JSON с заполненным полем ValueSliceInt64 (срез int64)
+	t.Run("Field with pointer to []int64, filled field", func(t *testing.T) {
+		ValueSliceInt := []int64{1, 2, 3}
+		testJsonData := []byte(`{"valuesliceint64": [1, 2, 3]}`)
+		result := &TestStructData{}
+		err := FillFields(result, testJsonData)
+		assert.NoError(t, err)
+		assert.Equal(t, ValueSliceInt, result.ValueSliceInt64)
+		assert.True(t, result.SetValueSliceInt64)
+	})
+
+	// 16. Тест: JSON с заполненным полем ValueSliceFloat64 (срез float64)
+	t.Run("Field with pointer to []float64, filled field", func(t *testing.T) {
+		ValueSliceInt := []float64{1.1, 2.2, 3.3}
+		testJsonData := []byte(`{"valueslicefloat64": [1.1, 2.2, 3.3]}`)
+		result := &TestStructData{}
+		err := FillFields(result, testJsonData)
+		assert.NoError(t, err)
+		assert.Equal(t, ValueSliceInt, result.ValueSliceFloat64)
+		assert.True(t, result.SetValueSliceFloat64)
+	})
+
+	// 17. Тест: JSON с заполненным полем ValueSliceInterface (срез интерфейсов)
+	t.Run("Field with pointer to []interface{}, filled field", func(t *testing.T) {
+		ValueSliceInterface := []interface{}{float64(1), "string", true}
+		testJsonData := []byte(`{"valuesliceinterface": [1, "string", true]}`)
+		result := &TestStructData{}
+		err := FillFields(result, testJsonData)
+		assert.NoError(t, err)
+		assert.Equal(t, ValueSliceInterface, result.ValueSliceInterface)
+		assert.True(t, result.SetValueSliceInterface)
+	})
+
+	// 18. Тест: JSON с заполненным полем ValueMapStringKey (map[string]interface{})
+	t.Run("Field with pointer to map, filled field", func(t *testing.T) {
+		ValueMapStringKey := map[string]interface{}{
+			"theme":         "dark",
+			"languValueInt": "en",
+		}
+		testJsonData := []byte(`{"valuemapstringkey": {"theme": "dark", "languValueInt": "en"}}`)
+		result := &TestStructData{}
+		err := FillFields(result, testJsonData)
+		assert.NoError(t, err)
+		assert.Equal(t, ValueMapStringKey, result.ValueMapStringKey)
+		assert.True(t, result.SetValueMapStringKey)
+	})
+
+	// 19. Тест: JSON без поля ValueStruct (TestChildStructData)
+	t.Run("Field with pointer to map, missing field", func(t *testing.T) {
+		stringValue := "exmaple_value_string"
+		ValueStruct := TestChildStructData{
+			ValueString: stringValue,
+		}
+		testJsonData := []byte(`{"valuestruct": {"valuestring": "exmaple_value_string"}}`)
+		result := &TestStructData{}
+		err := FillFields(result, testJsonData)
+		assert.NoError(t, err)
+		assert.Equal(t, ValueStruct, result.ValueStruct)
+		assert.True(t, result.SetValueStruct)
+	})
+	// 20. Тест: JSON без поля ValueStruct (TestChildPtrStructData)
+	t.Run("Field with pointer to map, missing field", func(t *testing.T) {
+		stringValue := "exmaple_value_string"
+		ValueStruct := TestChildStructData{
+			ValueString: stringValue,
+		}
+		testJsonData := []byte(`{"valuestruct": {"valuestring": "exmaple_value_string"}}`)
+		result := &TestStructData{}
+		err := FillFields(result, testJsonData)
+		assert.NoError(t, err)
+		assert.Equal(t, ValueStruct, result.ValueStruct)
+		assert.True(t, result.SetValueStruct)
+	})
+
+	// 21. Тест: JSON с заполненным полем ValueStructSlice (TestChildStructData)
+	t.Run("Field with pointer to map, missing field", func(t *testing.T) {
+		stringValue := "example_value_string"
+		ValueStruct := TestChildStructData{
+			ValueString: stringValue,
+		}
+		ValueSliceStruct := []TestChildStructData{ValueStruct}
+		testJsonData := []byte(`{"valueslicestruct": [{"valuestring": "example_value_string"}]}`)
+		result := &TestStructData{}
+		err := FillFields(result, testJsonData)
+		assert.NoError(t, err)
+		assert.Equal(t, ValueSliceStruct, result.ValueSliceStruct)
+		assert.True(t, result.SetValueSliceStruct)
+	})
+
+	// 22. Тест: JSON с заполненным полем ValueStructSlice (TestChildStructData)
+	t.Run("Field with pointer to map, missing field", func(t *testing.T) {
+		stringValue := "example_value_string"
+		ValueStruct := TestChildPtrStructData{
+			ValueString: &stringValue,
+		}
+		ValueSlicePtrStruct := []TestChildPtrStructData{ValueStruct}
+		testJsonData := []byte(`{"valuesliceptrstruct": [{"valuestring": "example_value_string"}]}`)
+		result := &TestStructData{}
+		err := FillFields(result, testJsonData)
+		assert.NoError(t, err)
+		assert.Equal(t, ValueSlicePtrStruct, result.ValueSlicePtrStruct)
+		assert.True(t, result.SetValueSlicePtrStruct)
+	})
+
+	// 23. Тест: JSON с заполненными всеми полями
+	t.Run("Field with all fields filled", func(t *testing.T) {
+		ValueString := "John Doe"
+		ValueInt := 30
+		ValueInt8 := int8(25)
+		ValueInt16 := int16(40)
+		ValueInt32 := int32(35)
+		ValueInt64 := int64(50)
+		ValueFloat64 := 175.5
+		active := true
+		ValueSliceString := []string{"tag1", "tag2", "tag3"}
+		ValueSliceInt8 := []int8{1, 2, 3}
+		ValueSliceInt16 := []int16{1, 2, 3}
+		ValueSliceInt32 := []int32{1, 2, 3}
+		ValueSliceInt64 := []int64{1, 2, 3}
+		ValueSliceInterface := []interface{}{float64(1), "string", true}
+		ValueMapStringKey := map[string]interface{}{
+			"theme":         "dark",
+			"languValueInt": "en",
+		}
+		stringValue := "example_value_string"
+		ValueStruct := TestChildStructData{
+			ValueString: stringValue,
+		}
+		ValuePtrStruct := TestChildPtrStructData{
+			ValueString: &stringValue,
+		}
+		ValueSliceStruct := []TestChildStructData{ValueStruct}
+		ValueSlicePtrStruct := []TestChildPtrStructData{ValuePtrStruct}
+
+		testJsonData := []byte(fmt.Sprintf(`{
+			"valuestring": "%s", 
+			"valueint": %d,
+			"valueint8": %d,
+			"valueint16": %d,
+			"valueint32": %d,
+			"valueint64": %d,
+			"valuefloat64": %f,
+			"active": %t,
+			"valueslicestring": ["tag1", "tag2", "tag3"],
+			"valuesliceint8": [1, 2, 3],
+			"valuesliceint8": [1, 2, 3],
+			"valuesliceint16": [1, 2, 3],
+			"valuesliceint32": [1, 2, 3],
+			"valuesliceint64": [1, 2, 3],
+			"valuesliceinterface": [1, "string", true],
+			"valuemapstringkey": {"theme": "dark", "languValueInt": "en"},
+			"valuestruct": {"valuestring": "example_value_string"},
+			"valueslicestruct": [{"valuestring": "example_value_string"}],
+			"valuesliceptrstruct": [{"valuestring": "example_value_string"}]
+		}`, ValueString, ValueInt, ValueInt8, ValueInt16, ValueInt32, ValueInt64, ValueFloat64, active))
+
+		result := &TestStructData{}
+		err := FillFields(result, testJsonData)
+		assert.NoError(t, err)
+		assert.Equal(t, ValueString, result.ValueString)
+		assert.Equal(t, ValueInt, result.ValueInt)
+		assert.Equal(t, ValueInt8, result.ValueInt8)
+		assert.Equal(t, ValueInt16, result.ValueInt16)
+		assert.Equal(t, ValueInt32, result.ValueInt32)
+		assert.Equal(t, ValueInt64, result.ValueInt64)
+		assert.Equal(t, ValueFloat64, result.ValueFloat64)
+		assert.Equal(t, active, result.Active)
+		assert.Equal(t, ValueSliceString, result.ValueSliceString)
+		assert.Equal(t, ValueSliceInt8, result.ValueSliceInt8)
+		assert.Equal(t, ValueSliceInt16, result.ValueSliceInt16)
+		assert.Equal(t, ValueSliceInt32, result.ValueSliceInt32)
+		assert.Equal(t, ValueSliceInt64, result.ValueSliceInt64)
+		assert.Equal(t, ValueSliceInterface, result.ValueSliceInterface)
+		assert.Equal(t, ValueMapStringKey, result.ValueMapStringKey)
+		assert.Equal(t, ValueStruct, result.ValueStruct)
+		assert.Equal(t, ValueSliceStruct, result.ValueSliceStruct)
+		assert.Equal(t, ValueSlicePtrStruct, result.ValueSlicePtrStruct)
+		assert.True(t, result.SetValueString)
+		assert.True(t, result.SetValueInt)
+		assert.True(t, result.SetValueInt8)
+		assert.True(t, result.SetValueInt16)
+		assert.True(t, result.SetValueInt32)
+		assert.True(t, result.SetValueInt64)
+		assert.True(t, result.SetValueFloat64)
+		assert.True(t, result.SetActive)
+		assert.True(t, result.SetValueSliceString)
+		assert.True(t, result.SetValueSliceInt8)
+		assert.True(t, result.SetValueSliceInt16)
+		assert.True(t, result.SetValueSliceInt32)
+		assert.True(t, result.SetValueSliceInt64)
+		assert.True(t, result.SetValueSliceInterface)
+		assert.True(t, result.SetValueMapStringKey)
+		assert.True(t, result.SetValueStruct)
+		assert.True(t, result.SetValueSliceStruct)
+		assert.True(t, result.SetValueSlicePtrStruct)
+	})
+}

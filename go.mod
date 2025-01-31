@@ -1,4 +1,4 @@
-module go_sandbox
+module jsonconverter
 
 go 1.22.0
 
