@@ -25,7 +25,7 @@ func FillFields(result interface{}, data []byte) error {
 	return nil
 }
 
-func SetFields(data interface{}, jsonData map[string]interface{}) {
+func SetFields(data interface{}, jsonData map[string]interface{}) error {
 	val := reflect.ValueOf(data).Elem()
 	typ := val.Type()
 
@@ -65,14 +65,19 @@ func SetFields(data interface{}, jsonData map[string]interface{}) {
 					// Если указатель на срез, обрабатываем каждый элемент
 					if nestedSlice, ok := nestedField.([]interface{}); ok {
 						slice := reflect.MakeSlice(field.Elem().Type(), len(nestedSlice), len(nestedSlice))
-						field.Elem().Set(slice)
 						for j := 0; j < slice.Len(); j++ {
 							elem := slice.Index(j)
 							if elem.Kind() == reflect.Ptr {
 								elem.Set(reflect.New(elem.Type().Elem()))
 							}
 							if nestedMap, ok := nestedSlice[j].(map[string]interface{}); ok {
-								SetFields(elem.Addr().Interface(), nestedMap)
+								// TODO: надо добавить другие типы на стоп-рекурсию
+								if field.Type().Elem().Elem().Kind().String() == "uint8" {
+									continue
+								} else {
+									SetFields(elem.Addr().Interface(), nestedMap)
+								}
+
 							} else {
 								// Если элемент не является картой, просто устанавливаем значение
 								elem.Set(reflect.ValueOf(nestedSlice[j]).Convert(elem.Type()))
@@ -155,4 +160,5 @@ func SetFields(data interface{}, jsonData map[string]interface{}) {
 			}
 		}
 	}
+	return nil
 }

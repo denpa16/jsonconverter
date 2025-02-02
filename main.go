@@ -1,6 +1,7 @@
 package main
 
 import (
+	"encoding/json"
 	"fmt"
 	"jsonconverter/field_setter"
 )
@@ -121,6 +122,7 @@ type TestPtrStructData struct {
 	ValuePtrStruct      *TestChildPtrStructData   `json:"valueptrstruct"`
 	ValueSliceStruct    *[]TestChildStructData    `json:"valueslicestruct"`
 	ValueSlicePtrStruct *[]TestChildPtrStructData `json:"valuesliceptrstruct"`
+	ValueA              *json.RawMessage          `json:"valuea"`
 
 	SetValueString         bool `json:"-"`
 	SetValueInt            bool `json:"-"`
@@ -145,6 +147,7 @@ type TestPtrStructData struct {
 	SetValuePtrStruct      bool `json:"-"`
 	SetValueSliceStruct    bool `json:"-"`
 	SetValueSlicePtrStruct bool `json:"-"`
+	SetValueA              bool `json:"-"`
 }
 
 type TestStructData struct {
@@ -214,6 +217,7 @@ func main() {
 		"valueslicefloat32": [1.1, 2.2, 3.3],
 		"valueslicefloat64": [4.4, 5.5, 6.6],
 		"valuesliceinterface": [1, "two", 3.0],
+		"valuea": {"id": 1},
 		"valuemapstringkey": {
 			"key1": "value1",
 			"key2": 2,
@@ -248,6 +252,6 @@ func main() {
 	testPtrStruct := &TestPtrStructData{}
 
 	field_setter.FillFields(testPtrStruct, jsonData)
-	fmt.Println(*testPtrStruct.ValueStruct)
-	fmt.Println(testPtrStruct.SetValueString)
+	fmt.Println(*testPtrStruct.ValueA)
+	fmt.Println(testPtrStruct.SetValueA)
 }
