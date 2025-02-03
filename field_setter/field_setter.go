@@ -65,6 +65,7 @@ func SetFields(data interface{}, jsonData map[string]interface{}) error {
 					// Если указатель на срез, обрабатываем каждый элемент
 					if nestedSlice, ok := nestedField.([]interface{}); ok {
 						slice := reflect.MakeSlice(field.Elem().Type(), len(nestedSlice), len(nestedSlice))
+						field.Elem().Set(slice)
 						for j := 0; j < slice.Len(); j++ {
 							elem := slice.Index(j)
 							if elem.Kind() == reflect.Ptr {

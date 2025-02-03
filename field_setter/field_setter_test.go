@@ -1,6 +1,7 @@
 package field_setter
 
 import (
+	"encoding/json"
 	"fmt"
 	"strconv"
 	"testing"
@@ -124,6 +125,7 @@ type TestPtrStructData struct {
 	ValuePtrStruct      *TestChildPtrStructData   `json:"valueptrstruct"`
 	ValueSliceStruct    *[]TestChildStructData    `json:"valueslicestruct"`
 	ValueSlicePtrStruct *[]TestChildPtrStructData `json:"valuesliceptrstruct"`
+	ValueJsonRawMessage *json.RawMessage          `json:"valuejsonrawmessage"`
 
 	SetValueString         bool `json:"-"`
 	SetValueInt            bool `json:"-"`
@@ -148,6 +150,7 @@ type TestPtrStructData struct {
 	SetValuePtrStruct      bool `json:"-"`
 	SetValueSliceStruct    bool `json:"-"`
 	SetValueSlicePtrStruct bool `json:"-"`
+	SetValueJsonRawMessage bool `json:"-"`
 }
 
 type TestStructData struct {
@@ -397,6 +400,16 @@ func TestTestPtrStructDataWithoutFilledFields(t *testing.T) {
 		assert.NoError(t, err)
 		assert.Nil(t, result.ValuePtrStruct)
 		assert.False(t, result.SetValuePtrStruct)
+	})
+
+	// 19. Тест: JSON с заполненным полем ValueJsonRawMessage
+	t.Run("Field with pointer to map, missing field", func(t *testing.T) {
+		testJsonData := []byte(`{}`)
+		result := &TestPtrStructData{}
+		err := FillFields(result, testJsonData)
+		assert.NoError(t, err)
+		assert.Nil(t, result.ValueJsonRawMessage)
+		assert.False(t, result.SetValueJsonRawMessage)
 	})
 
 	// 19. Тест: JSON с пустым объектом, без значений
@@ -692,7 +705,17 @@ func TestTestPtrStructDataWithFilledFields(t *testing.T) {
 		assert.True(t, sliceField[0].SetValueString)
 	})
 
-	// 20. Тест: JSON с заполненными всеми полями
+	// 21. Тест: JSON с заполненным полем ValueStructSlice (TestChildStructData)
+	t.Run("Field with pointer to map, missing field", func(t *testing.T) {
+		testJsonData := []byte(`{"valuejsonrawmessage": [{"valuestring": "example_value_string"}]}`)
+		result := &TestPtrStructData{}
+		err := FillFields(result, testJsonData)
+		assert.NoError(t, err)
+		assert.NotNil(t, result.ValueJsonRawMessage)
+		assert.True(t, result.SetValueJsonRawMessage)
+	})
+
+	// 22. Тест: JSON с заполненными всеми полями
 	t.Run("Field with all fields filled", func(t *testing.T) {
 		ValueString := "John Doe"
 		ValueInt := 30
