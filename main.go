@@ -4,6 +4,8 @@ import (
 	"encoding/json"
 	"fmt"
 	"jsonconverter/field_setter"
+
+	"github.com/google/uuid"
 )
 
 type TestChildStructData struct {
@@ -99,6 +101,7 @@ type TestChildPtrStructData struct {
 }
 
 type TestPtrStructData struct {
+	ValueUUID           *uuid.UUID                `json:"valueuuid"`
 	ValueString         *string                   `json:"valuestring"`
 	ValueInt            *int                      `json:"valueint"`
 	ValueInt8           *int8                     `json:"valueint8"`
@@ -124,6 +127,7 @@ type TestPtrStructData struct {
 	ValueSlicePtrStruct *[]TestChildPtrStructData `json:"valuesliceptrstruct"`
 	ValueA              *json.RawMessage          `json:"valuea"`
 
+	SetValueUUID           bool `json:"-"`
 	SetValueString         bool `json:"-"`
 	SetValueInt            bool `json:"-"`
 	SetValueInt8           bool `json:"-"`
@@ -151,6 +155,7 @@ type TestPtrStructData struct {
 }
 
 type TestStructData struct {
+	ValueUUID           uuid.UUID                `json:"valueuuid"`
 	ValueString         string                   `json:"valuestring"`
 	ValueInt            int                      `json:"valueint"`
 	ValueInt8           int8                     `json:"valueint8"`
@@ -173,7 +178,9 @@ type TestStructData struct {
 	ValueStruct         TestChildStructData      `json:"valuestruct"`
 	ValueSliceStruct    []TestChildStructData    `json:"valueslicestruct"`
 	ValueSlicePtrStruct []TestChildPtrStructData `json:"valuesliceptrstruct"`
+	ValueA              json.RawMessage          `json:"valuea"`
 
+	SetValueUUID           bool `json:"-"`
 	SetValueString         bool `json:"-"`
 	SetValueInt            bool `json:"-"`
 	SetValueInt8           bool `json:"-"`
@@ -196,10 +203,12 @@ type TestStructData struct {
 	SetValueStruct         bool `json:"-"`
 	SetValueSliceStruct    bool `json:"-"`
 	SetValueSlicePtrStruct bool `json:"-"`
+	SetValueA              bool `json:"-"`
 }
 
 func main() {
 	jsonData := []byte(`{
+		"valueuuid": "9a732aa1-ac02-422f-957f-86648b18d7fe",
 		"valuestring": "test",
 		"valueint8": 8,
 		"valueint16": 16,
@@ -250,8 +259,16 @@ func main() {
 	}`)
 
 	testPtrStruct := &TestPtrStructData{}
+	testStruct := &TestStructData{}
 
 	field_setter.FillFields(testPtrStruct, jsonData)
+	field_setter.FillFields(testStruct, jsonData)
 	fmt.Println(*testPtrStruct.ValueA)
 	fmt.Println(testPtrStruct.SetValueA)
+	fmt.Println(testStruct.ValueA)
+	fmt.Println(testStruct.SetValueA)
+	fmt.Println(testStruct.ValueUUID)
+	fmt.Println(testStruct.SetValueUUID)
+	fmt.Println(testPtrStruct.ValueUUID)
+	fmt.Println(testPtrStruct.SetValueUUID)
 }

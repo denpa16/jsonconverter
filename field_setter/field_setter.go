@@ -5,6 +5,8 @@ import (
 	"fmt"
 	"reflect"
 	"strings"
+
+	"github.com/google/uuid"
 )
 
 // setFields рекурсивно устанавливает Set-поля в true, если соответствующие поля присутствуют в JSON
@@ -65,7 +67,7 @@ func SetFields(data interface{}, jsonData map[string]interface{}) error {
 					// Если указатель на срез, обрабатываем каждый элемент
 					if nestedSlice, ok := nestedField.([]interface{}); ok {
 						slice := reflect.MakeSlice(field.Elem().Type(), len(nestedSlice), len(nestedSlice))
-						field.Elem().Set(slice)
+
 						for j := 0; j < slice.Len(); j++ {
 							elem := slice.Index(j)
 							if elem.Kind() == reflect.Ptr {
@@ -84,6 +86,7 @@ func SetFields(data interface{}, jsonData map[string]interface{}) error {
 								elem.Set(reflect.ValueOf(nestedSlice[j]).Convert(elem.Type()))
 							}
 						}
+						field.Elem().Set(slice)
 					}
 				case reflect.Map:
 					// Если указатель на карту, создаём новую карту и заполняем её
@@ -104,9 +107,19 @@ func SetFields(data interface{}, jsonData map[string]interface{}) error {
 						}
 					}
 				default:
-					// Если указатель на примитивный тип, просто устанавливаем значение
-					if nestedField != nil {
-						field.Elem().Set(reflect.ValueOf(nestedField).Convert(field.Elem().Type()))
+					if field.Elem().Type() == reflect.TypeOf(uuid.UUID{}) {
+						if nestedFieldStr, ok := nestedField.(string); ok {
+							// Преобразуем строку в uuid.UUID
+							if val, err := uuid.Parse(nestedFieldStr); err == nil {
+								field.Set(reflect.ValueOf(&val))
+							} else {
+								return fmt.Errorf("error parsing UUID: %v", err)
+							}
+						}
+					} else {
+						if nestedField != nil {
+							field.Elem().Set(reflect.ValueOf(nestedField).Convert(field.Elem().Type()))
+						}
 					}
 				}
 			case reflect.Slice:
@@ -155,7 +168,18 @@ func SetFields(data interface{}, jsonData map[string]interface{}) error {
 				}
 			default:
 				// Если поле — примитивный тип, просто устанавливаем значение
-				if nestedField != nil {
+				if field.Type() == reflect.TypeOf(uuid.UUID{}) {
+					if nestedFieldStr, ok := nestedField.(string); ok {
+						// Преобразуем строку в uuid.UUID
+						if val, err := uuid.Parse(nestedFieldStr); err == nil {
+							field.Set(reflect.ValueOf(val))
+						} else {
+							fmt.Println("Error parsing UUID:", err)
+							return fmt.Errorf("error parsing UUID: %v", err)
+						}
+					}
+				} else if nestedField != nil {
+					// Если поле — примитивный тип, просто устанавливаем значение
 					field.Set(reflect.ValueOf(nestedField).Convert(field.Type()))
 				}
 			}

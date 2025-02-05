@@ -6,6 +6,7 @@ import (
 	"strconv"
 	"testing"
 
+	"github.com/google/uuid"
 	"github.com/stretchr/testify/assert"
 )
 
@@ -154,6 +155,7 @@ type TestPtrStructData struct {
 }
 
 type TestStructData struct {
+	ValueUUID           uuid.UUID                `json:"valueuuid"`
 	ValueString         string                   `json:"valuestring"`
 	ValueInt            int                      `json:"valueint"`
 	ValueInt8           int8                     `json:"valueint8"`
@@ -177,6 +179,7 @@ type TestStructData struct {
 	ValueSliceStruct    []TestChildStructData    `json:"valueslicestruct"`
 	ValueSlicePtrStruct []TestChildPtrStructData `json:"valuesliceptrstruct"`
 
+	SetValueUUID           bool `json:"-"`
 	SetValueString         bool `json:"-"`
 	SetValueInt            bool `json:"-"`
 	SetValueInt8           bool `json:"-"`
